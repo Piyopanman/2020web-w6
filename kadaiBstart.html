@@ -1,57 +1,112 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <title>JavaScript Practice</title>
-  <style>
-    body {
-      display: flex;
-      flex-wrap: wrap;
-    }
-    .box {
-      width: 100px;
-      height: 100px;
-      background: skyblue;
-      cursor: pointer;
-      transition: 0.8s;
-      margin: 0 8px 8px 0;
-      text-align: center;
-      line-height: 100px;
-    }
-    .win {
-      background: pink;
-      border-radius: 50%;
-      transform: rotate(360deg);
-    }
-    .lose {
-      transform: scale(0.9);
-    }
-  </style>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <title>JavaScript Practice</title>
+    <style>
+      body {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      #sqare {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .kadai {
+        display: block;
+        width: 100%;
+      }
+      .box {
+        width: 100px;
+        height: 100px;
+        background: skyblue;
+        cursor: pointer;
+        transition: 0.8s;
+        margin: 0 8px 8px 0;
+        text-align: center;
+        line-height: 100px;
+        margin-top: 100px;
+      }
+      .daikiti {
+        background: #ff8989;
+        border-radius: 50%;
+        transform: rotate(360deg);
+      }
+      .chukiti {
+        background: #ffc489;
+        border-radius: 30%;
+        transform: rotate(360deg);
+      }
+      .shokiti {
+        background: #c4ff89;
+        border-radius: 10%;
+        transform: rotate(360deg);
+      }
+      .kyo {
+        background-color: #00a8eb;
+        transform: scale(0.9);
+        transition: all 0.5s ease-in-out;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="kadai">
+      <h1>おみくじゲーム</h1>
+      <h2>残りクリック回数: 10回</h2>
+      <br />
+    </div>
+    <div id="sqare">
 
-  <script>
-    'use strict';
+    </div>
+    <script>
+      "use strict";
 
-    const num = 5;
-    const winner = Math.floor(Math.random() * num); // 0 - 4
+      const num = 10;
+      const luck_num = 4;
+      const daikiti = Math.floor(Math.random() * num);
+      const chukiti = Math.floor(Math.random() * num);
+      const syokiti = Math.floor(Math.random() * num);
+      const kyo = Math.floor(Math.random() * num);
 
-    for (let i = 0; i < num; i++) {
-      const div = document.createElement('div');
-      div.classList.add('box');
-      
-      div.addEventListener('click', () => {
-        if (i === winner) {
-          div.textContent = 'Win!';
-          div.classList.add('win');
-        } else {
-          div.textContent = 'Lose!';
-          div.classList.add('lose');
-        }
-      });
+      let h1 = document.querySelector("h1");
+      let h2 = document.querySelector("h2");
+      let count = num;
 
-      document.body.appendChild(div);
-    }
-  </script>
-</body>
+      const square = document.getElementById('sqare');
+
+
+      for (let i = 0; i < num; i++) {
+        const div = document.createElement("div");
+        div.classList.add("box");
+
+        const omikuji = () => {
+          count--;
+          if(count !== -1){
+            h2.textContent = `残りクリック回数: ${count}回`;
+          }
+          console.log(count);
+          if (i === daikiti) {
+            div.textContent = "大吉";
+            div.classList.add("daikiti");
+          } else if (i === chukiti) {
+            div.textContent = "中吉";
+            div.classList.add("chukiti");
+          } else if (i === syokiti) {
+            div.textContent = "凶";
+            div.classList.add("kyo");
+          } else {
+            div.textContent = "小吉";
+            div.classList.add("shokiti");
+          }
+          if (count === -1) {
+            h1.textContent = "終わり！";
+            square.style.display="none";
+          }
+        };
+
+        div.addEventListener("click", omikuji);
+        square.appendChild(div);
+      }
+    </script>
+  </body>
 </html>
